@@ -239,4 +239,28 @@ arrows.forEach(arrow => {
   }); 
 });
 
+const themeButton = document.getElementById('theme-button');
+
+function toggleDarkTheme() {
+  document.body.classList.toggle('dark-theme');
+  storeCurrentTheme(); 
+}
+
+function storeCurrentTheme() {
+  const isDarkTheme = document.body.classList.contains('dark-theme');
+  localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+}
+
+function loadTheme() {
+  const storedTheme = localStorage.getItem('theme');
+  if (storedTheme === 'dark') {
+    document.body.classList.add('dark-theme'); 
+  }
+}
+
+themeButton.addEventListener('click', toggleDarkTheme); 
+
+// Load theme on page load
+loadTheme(); 
+
 setupGame(); 
