@@ -215,4 +215,28 @@ document.addEventListener('keyup', event => {
     }
 });
 
+// Mobile arrow touch events
+const arrows = document.querySelectorAll('.arrow');
+
+function handleArrowInput(direction) {
+	const keyMap = {
+		'left': 'ArrowLeft',
+		'right': 'ArrowRight',
+		'up': 'ArrowUp',
+		'down': 'ArrowDown',
+	}; 
+	const arrowKey = keyMap[direction];
+  handleInput(arrowKey); 
+}
+
+arrows.forEach(arrow => {
+  arrow.addEventListener('touchstart', (event) => {
+    handleArrowInput(arrow.classList[1]);  
+  }, { passive: true });
+
+  arrow.addEventListener('click', (event) => { 
+    handleArrowInput(arrow.classList[1]);  
+  }); 
+});
+
 setupGame(); 

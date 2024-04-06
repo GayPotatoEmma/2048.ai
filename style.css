@@ -68,3 +68,40 @@ body {
 .tile-16384 { background-color: #f59563; color: #f9f6f2; }
 .tile-32768 { background-color: #f67c5f; color: #f9f6f2; }
 .tile-65536 { background-color: #f65e3b; color: #f9f6f2; }
+
+.arrow-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%; 
+  padding: 20px 0; /* Adjust spacing as needed */
+}
+
+.arrow {
+  width: 60px;
+  height: 60px;
+  background-color: #777; /* Example color, customize as desired */
+  border: 2px solid black;
+  border-radius: 5px;
+  opacity: 0.6; /* Semi-transparent */
+  cursor: pointer;
+  position: relative; /* To position arrow icons  */
+}
+
+.arrow::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border: 15px solid transparent; /* Creates triangle shape */
+}
+
+.up::before    { border-bottom-color: #fff; } /* White for upward arrow */
+.down::before  { border-top-color: #fff; }
+.left::before  { border-right-color: #fff; }
+.right::before { border-left-color: #fff; }
+
+/* Add hover effect */
+.arrow:hover {
+  opacity: 1;  
+}
