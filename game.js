@@ -1,13 +1,15 @@
 const gridContainer = document.querySelector('.grid-container');
+const scoreDisplay = document.getElementById('score'); 
 
-// Game Logic:
-let grid = []; // A 2D array representing the game board
+let grid = [];
+let score = 0; 
 
 function setupGame() {
     grid = createEmptyGrid();
     addRandomTile();
     addRandomTile();
     renderGrid();
+    updateScoreDisplay();
 }
 
 function createEmptyGrid() {
@@ -74,148 +76,112 @@ function mergeTiles(tiles) {
     for (let i = 0; i < tiles.length - 1; i++) {
         if (tiles[i] === tiles[i + 1]) {
             tiles[i] *= 2;
+            score += tiles[i]; // Update the score
             tiles.splice(i + 1, 1);
         }
     }
     return tiles;
 }
 
+function moveAndMerge(rowOrCol) {
+  const filteredRowOrCol = rowOrCol.filter(num => num !== 0);
+  const mergedRowOrCol = mergeTiles(filteredRowOrCol);
+  const finalRowOrCol = mergedRowOrCol.concat(Array(4 - mergedRowOrCol.length).fill(0));
+  return finalRowOrCol;
+}
+
 function moveTilesUp() {
-    let moved = false;
-    for (let col = 0; col < 4; col++) {
-        for (let row = 1; row < 4; row++) { 
-            if (grid[row][col] !== 0) {
-                let mergeRow = row - 1; 
-                while (mergeRow >= 0 && grid[mergeRow][col] === 0) { 
-                    mergeRow--; 
-                }
-                if (mergeRow >= 0 && grid[mergeRow][col] === grid[row][col]) {
-                    grid[mergeRow][col] *= 2;
-                    grid[row][col] = 0;
-                    moved = true;
-                } else if (mergeRow + 1 !== row) { 
-                    grid[mergeRow + 1][col] = grid[row][col];
-                    grid[row][col] = 0;
-                    moved = true;
-                }
-            }
-        }
+  let moved = false;
+  for (let col = 0; col < 4; col++) {
+    const colData = [grid[0][col], grid[1][col], grid[2][col], grid[3][col]];
+    const newColData = moveAndMerge(colData); 
+    for (let row = 0; row < 4; row++) {
+      if (grid[row][col] !== newColData[row]) moved = true;
+      grid[row][col] = newColData[row];
     }
-    return moved;
+  }
+  return moved;
 }
 
 function moveTilesDown() {
-    let moved = false;
-    for (let col = 0; col < 4; col++) {
-        for (let row = 2; row >= 0; row--) { // Start from the third row (from the bottom)
-            if (grid[row][col] !== 0) {
-                let mergeRow = row + 1; // Look at the row below
-                while (mergeRow <= 3 && grid[mergeRow][col] === 0) { 
-                    mergeRow++;
-                }
-                if (mergeRow <= 3 && grid[mergeRow][col] === grid[row][col]) {
-                    grid[mergeRow][col] *= 2;
-                    grid[row][col] = 0;
-                    moved = true;
-                } else if (mergeRow - 1 !== row) { 
-                    grid[mergeRow - 1][col] = grid[row][col];
-                    grid[row][col] = 0;
-                    moved = true;
-                }
-            }
-        }
+  let moved = false;
+  for (let col = 0; col < 4; col++) {
+    const colData = [grid[3][col], grid[2][col], grid[1][col], grid[0][col]];
+    const newColData = moveAndMerge(colData);
+    for (let row = 3; row >= 0; row--) {
+      if (grid[row][col] !== newColData[3 - row]) moved = true;
+      grid[row][col] = newColData[3 - row];
     }
-    return moved;
+  }
+  return moved;
 }
 
 function moveTilesLeft() {
-    let moved = false;
-    for (let row = 0; row < 4; row++) {
-        for (let col = 1; col < 4; col++) { 
-            if (grid[row][col] !== 0) {
-                let mergeCol = col - 1; 
-                while (mergeCol >= 0 && grid[row][mergeCol] === 0) { 
-                    mergeCol--; 
-                }
-                if (mergeCol >= 0 && grid[row][mergeCol] === grid[row][col]) {
-                    grid[row][mergeCol] *= 2;
-                    grid[row][col] = 0;
-                    moved = true;
-                } else if (mergeCol + 1 !== col) { 
-                    grid[row][mergeCol + 1] = grid[row][col];
-                    grid[row][col] = 0;
-                    moved = true;
-                }
-            }
-        }
+  let moved = false;
+  for (let row = 0; row < 4; row++) {
+    const rowData = [grid[row][0], grid[row][1], grid[row][2], grid[row][3]];
+    const newRowData = moveAndMerge(rowData);
+    for (let col = 0; col < 4; col++) {
+      if (grid[row][col] !== newRowData[col]) moved = true;
+      grid[row][col] = newRowData[col];
     }
-    return moved;
+  }
+  return moved;
 }
 
 function moveTilesRight() {
-    let moved = false;
-    for (let row = 0; row < 4; row++) {
-        for (let col = 2; col >= 0; col--) { // Start from the third column (from the right)
-            if (grid[row][col] !== 0) {
-                let mergeCol = col + 1; 
-                while (mergeCol <= 3 && grid[row][mergeCol] === 0) { 
-                    mergeCol++; 
-                }
-                if (mergeCol <= 3 && grid[row][mergeCol] === grid[row][col]) {
-                    grid[row][mergeCol] *= 2;
-                    grid[row][col] = 0;
-                    moved = true;
-                } else if (mergeCol - 1 !== col) { 
-                    grid[row][mergeCol - 1] = grid[row][col];
-                    grid[row][col] = 0;
-                    moved = true;
-                }
-            }
-        }
+  let moved = false;
+  for (let row = 0; row < 4; row++) {
+    const rowData = [grid[row][3], grid[row][2], grid[row][1], grid[row][0]];
+    const newRowData = moveAndMerge(rowData);
+    for (let col = 3; col >= 0; col--) {
+      if (grid[row][col] !== newRowData[3 - col]) moved = true; 
+      grid[row][col] = newRowData[3 - col];
     }
-    return moved;
+  }
+  return moved;
 }
 
 
 function checkGameOver() {
-    // 1. Check for any empty cells
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
             if (grid[i][j] === 0) {
-                return; // Game is not over (empty cell found)
+                return; 
             }
         }
     }
 
-    // 2. Check for adjacent tiles with the same value
     for (let i = 0; i < 4; i++) {
-        for (let j = 0; j < 3; j++) { // Don't need to check last column of each row
+        for (let j = 0; j < 3; j++) { 
             if (grid[i][j] === grid[i][j + 1]) {
-                return; // Game is not over (mergeable tiles found)
+                return; 
             }
         }
     }
     for (let j = 0; j < 4; j++) {
-        for (let i = 0; i < 3; i++) {  // Don't need to check the last row of each column
+        for (let i = 0; i < 3; i++) { 
             if (grid[i][j] === grid[i + 1][j]) {
-                return; // Game is not over (mergeable tiles found)
+                return; 
             }
         }
     }
 
-    // If neither condition was met, it's game over:
     alert('Game Over!'); 
 }
 
-// Event Listeners
+function updateScoreDisplay() {
+    scoreDisplay.textContent = score;
+}
+
 document.addEventListener('keyup', event => {
     const key = event.key;
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) {
         handleInput(key);
+        updateScoreDisplay(); // Update score after each move
     }
 });
 
-// Mobile arrow touch events
 const arrows = document.querySelectorAll('.arrow');
 
 function handleArrowInput(direction) {
@@ -227,6 +193,7 @@ function handleArrowInput(direction) {
 	}; 
 	const arrowKey = keyMap[direction];
   handleInput(arrowKey); 
+  updateScoreDisplay(); // Update score after each move
 }
 
 arrows.forEach(arrow => {
@@ -243,7 +210,8 @@ const themeButton = document.getElementById('theme-button');
 
 function toggleDarkTheme() {
   document.body.classList.toggle('dark-theme');
-  storeCurrentTheme(); 
+  document.body.classList.toggle('light-theme');
+  storeCurrentTheme();
 }
 
 function storeCurrentTheme() {
@@ -255,12 +223,12 @@ function loadTheme() {
   const storedTheme = localStorage.getItem('theme');
   if (storedTheme === 'dark') {
     document.body.classList.add('dark-theme'); 
+    document.body.classList.remove('light-theme'); // Ensure light theme is removed
   }
 }
 
 themeButton.addEventListener('click', toggleDarkTheme); 
 
-// Load theme on page load
 loadTheme(); 
 
-setupGame(); 
+setupGame();

@@ -1,32 +1,28 @@
+/* General Styles */
 body {
-    background-color: #e0e0e0; 
+    background-color: var(--background-color);
     font-family: 'Press Start 2P', cursive;
+    display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
     margin: 0;
-	overflow: hidden;
+    overflow: hidden;
 }
 
 body.dark-theme {
-  background-color: #434343; 
+  --background-color: #434343;
+  --text-color: white;
 }
 
-.button-container {
-	background-color: #777777; /* Example color */
-	color: white;
-	padding: 10px 20px;
-	border: 2px solid black; 
-	border-radius: 10px;
-	cursor: pointer;
-	font-family: 'Press Start 2P', cursive; /* The font */ 
-	width: 235px;
-	box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.3);
-	text-align: center;
+body.light-theme {
+  --background-color: #e0e0e0;
+  --text-color: black;
 }
 
+/* Container Styles */
 .container {
-    background-color: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
+    background-color: rgba(255, 255, 255, 0.4);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,41 +30,35 @@ body.dark-theme {
     border: 3px solid black;
     border-radius: 10px;
     box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.3);
-	position: relative;
+    position: relative;
 }
 
-.main-container {
-  display: flex;  
-  align-items: center;  
-  justify-content: center; /* Distribute space to push the container to the top */
-  height: 100vh; /* Make the container take full viewport height */
-}
-
-
+/* Title Bar Styles */
 .title-bar {
     font-size: 2em;
     margin-bottom: 15px;
-    display: flex; /* Allow score display on the right side */
-    justify-content: space-between; /* Space between title and score */
-    align-items: center; /* Vertically center */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
+/* Grid Styles */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(4, 100px);
     grid-template-rows: repeat(4, 100px);
     gap: 10px;
-    background-color: #bbada0; 
-    border: 2px solid black; /* Simpler border */
-    border-radius: 5px;  /* Slightly rounded corners */
-    box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.2); /* Softer shadow */
+    background-color: #bbada0;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .grid-cell {
     width: 100px;
     height: 100px;
     border-radius: 5px;
-    background-color: #cdc1b4; /* Color for empty cells */
+    background-color: #cdc1b4;
     font-size: 24px;
     font-weight: bold;
     color: white;
@@ -77,8 +67,8 @@ body.dark-theme {
     align-items: center;
 }
 
-/* Tile colors */
-.tile-2 { background-color: #eee4da; color: #776e65; }
+/* Tile Color Styles */
+.tile-2 { background-color: #eee4da; color: #776e65; } 
 .tile-4 { background-color: #ede0c8; color: #776e65; }
 .tile-8 { background-color: #f2b179; color: #f9f6f2; }
 .tile-16 { background-color: #f59563; color: #f9f6f2; }
@@ -95,23 +85,38 @@ body.dark-theme {
 .tile-32768 { background-color: #f67c5f; color: #f9f6f2; }
 .tile-65536 { background-color: #f65e3b; color: #f9f6f2; }
 
+/* Button Styles */
+.button-container {
+    background-color: #777777; 
+    color: white;
+    padding: 10px 20px;
+    border: 2px solid black; 
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive; 
+    width: 235px;
+    box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Arrow Styles */
 .arrow-container {
   display: flex;
   justify-content: space-around;
   align-items: center;
   width: 100%; 
-  padding: 20px 0; /* Adjust spacing as needed */
+  padding: 20px 0;
 }
 
 .arrow {
   width: 60px;
   height: 60px;
-  background-color: #777; /* Example color, customize as desired */
+  background-color: #777; 
   border: 2px solid black;
   border-radius: 5px;
-  opacity: 0.6; /* Semi-transparent */
+  opacity: 0.6; 
   cursor: pointer;
-  position: relative; /* To position arrow icons  */
+  position: relative; 
 }
 
 .arrow::before {
@@ -119,15 +124,14 @@ body.dark-theme {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  border: 15px solid transparent; /* Creates triangle shape */
+  border: 15px solid transparent;
 }
 
-.up::before    { border-bottom-color: #fff; } /* White for upward arrow */
+.up::before    { border-bottom-color: #fff; } 
 .down::before  { border-top-color: #fff; }
 .left::before  { border-right-color: #fff; }
 .right::before { border-left-color: #fff; }
 
-/* Add hover effect */
 .arrow:hover {
   opacity: 1;  
 }

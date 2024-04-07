@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>2048</title>
- <link rel="stylesheet" href="style.css">
- <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2048</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
-<body>
- <div class="main-container"> 
-    <div class="container"> 
-      <div class="title-bar">2048</div>
+<body class="light-theme"> 
+  <main class="main-container">
+    <div class="container">
+      <header class="title-bar">
+        <h1>2048</h1> </header>
       <div class="grid-container"></div>
-      <div class="arrow-container"> 
+      <div class="arrow-container">
         <div class="arrow up"></div>
         <div class="arrow down"></div>
         <div class="arrow left"></div>
         <div class="arrow right"></div>
       </div>
-      <div class="button-container" id="theme-button">Change Theme</div> 
+      <div class="button-container" id="theme-button">Change Theme</div>
     </div>
- </div> 
-<script src="game.js"></script>
+  </main>
+  <script src="game.js"></script>
 </body>
 </html>
